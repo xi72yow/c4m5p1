@@ -1,0 +1,37 @@
+html {
+  font-size: 22px;
+  background-color: steelblue;
+}
+
+h1,
+h2 {
+  text-align: center;
+}
+
+body {
+  color: whitesmoke;
+  padding: 1rem;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+  padding: 1rem;
+}
+
+.cards {
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+}
+
+@media (min-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

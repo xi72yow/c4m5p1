@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Web browser Client</title>
+  </head>
+
+  <body>
+    <h1>Kamera Dashboard</h1>
+    <div id="board" class="cards">
+      <!-- <div class="card">
+        <img id="ESP32-1" src="" />
+        <h2><b>CAM 1</b></h2>
+      </div>
+
+      <div class="card">
+        <img id="ESP32-2" src="" />
+        <h2><b>CAM 2</b></h2>
+      </div> -->
+    </div>
+    <script>
+      var imageFrame;
+      let urlObject;
+
+      const ip = window.location.hostname;
+      const WS_URL = `ws://${ip}:8888`;
+
+      let ws;
+      const reconnect = () => {
+        ws = new WebSocket(WS_URL);
+        ws.onopen = () => {
+          console.log(`Connected to ${WS_URL}`);
+          ws.send("WEB_CLIENT");
+        };
+        ws.onclose = () => {
+          console.log("Connection closed. Reconnecting...");
+          setTimeout(reconnect, 1000);
+        };
+        ws.onmessage = async (message) => {
+          const arrayBuffer = message.data;
+          if (urlObject) {
+            URL.revokeObjectURL(urlObject);
+          }
+          var blobObj = new Blob([arrayBuffer]);
+          const buf = await blobObj.arrayBuffer();
+          var uint8 = new Uint8Array(buf.slice(12, 13));
+          var currentCam = uint8[0];
+
+          // get the current image frame to update else create a new one
+          let img = document.getElementById("ESP32-" + currentCam);
+
+          if (img) {
+            imageFrame = img;
+          } else {
+            const board = document.getElementById("board");
+            const card = document.createElement("div");
+            card.className = "card";
+            board.appendChild(card);
+            const image = document.createElement("img");
+            image.id = "ESP32-" + currentCam;
+            card.appendChild(image);
+            const h2 = document.createElement("h2");
+            h2.innerHTML = "<b>CAM " + currentCam + "</b>";
+            card.appendChild(h2);
+            document.getElementById("board").appendChild(card);
+            imageFrame = image;
+          }
+
+          urlObject = URL.createObjectURL(blobObj);
+          imageFrame.src = urlObject;
+        };
+      };
+
+      reconnect();
+    </script>
+  </body>
+</html>
