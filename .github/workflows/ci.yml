@@ -24,6 +24,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
+          context: ./server
           platforms: linux/amd64
           tags: "ghcr.io/${{ github.repository }}:latest"
           #cache-from: type=gha
