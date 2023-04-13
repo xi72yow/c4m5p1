@@ -1,4 +1,4 @@
-FROM node:19-slim
+FROM node:19
 
 # Install dependencies
 COPY package.json yarn.lock ./
@@ -13,4 +13,4 @@ EXPOSE 8080
 EXPOSE 8888
 
 # Start
-CMD ["yarn", "start"]
+CMD ["node", "start"]
