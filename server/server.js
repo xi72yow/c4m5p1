@@ -40,6 +40,14 @@ app.use(express.static("."));
 app.get("/client", (req, res) =>
   res.sendFile(path.resolve(__dirname, "./client.html"))
 );
-app.listen(HTTP_PORT, () =>
-  console.log(`HTTP server listening at ${HTTP_PORT}`)
-);
+app.listen(HTTP_PORT, () => {
+  // log server start time
+  console.log(`Server started at ${new Date()}`);
+  console.log(`HTTP server listening at ${HTTP_PORT}`);
+});
+
+// log app crashes
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception: ", err);
+  throw err;
+});
