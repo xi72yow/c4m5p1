@@ -1,7 +1,7 @@
 #include "esp_camera.h"
 #include <WiFi.h>
 #include <ArduinoWebsockets.h>
-#include <config.h>
+#include "./config.h"
 
 #define CAMERA_MODEL_AI_THINKER
 #define WAITING_TIMEOUT 120000
